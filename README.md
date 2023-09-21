@@ -4,7 +4,7 @@ A collection of my solutions to the ROP Emporium challenges.
 
 See [https://ropemporium.com/](https://ropemporium.com/) for the original site. Huge thanks to the creators!
 
-I might add some writeups later if my payload generation scripts aren't self-documenting enough.
+I might add some writeups later.
 
 ## What's ROP?
 **R**eturn-**o**riented **p**rogramming (ROP) is a computer security exploit technique that allows an attacker to
