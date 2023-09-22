@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# padding: 40 bytes
-
 import struct
 import sys
 

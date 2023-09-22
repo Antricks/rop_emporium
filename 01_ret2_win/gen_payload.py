@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 # ret2win: 0x0000000000400756
-# padding: 32 bytes
 
 import struct
 import sys
